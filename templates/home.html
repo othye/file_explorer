@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Files Explorer(PHP)</title>
+
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+
+    </head>
+    <body>
+        <header ></header>
+        <section class="container">
+           
+            <legend><i class="fa fa-folder-open" aria-hidden="true"></i> DIR : {{ dir }}</legend>
+                <table class="table">
+                    <th scope="col">Type</th>
+                    <th scope="col">Files</th>
+                    
+                    {% for data in mydata %}
+                        {% if data['type'] == true %}
+                            <tr>
+                                <td><img id='icons' src='img/folder.png'></td>
+                                <td><a href="index.php?dir={{data['topdir']}}">{{ data['file']}}</a></td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td><img id='icons' src='img/file.png'></td>
+                                <td><a href="download.php?dir={{down}}">{{ data['file']}}</a></td>
+                            </tr>
+                        {% endif %}
+                        
+                    {% endfor %}
+
+
+                    </tr>
+
+
+                </table>
+
+        </section>
+
+
+    </body>
+</html>

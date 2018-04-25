@@ -1,0 +1,12 @@
+{
+    "name": "files-explore/twig",
+    "authors": [
+        {
+            "name": "otmane",
+            "email": "otmane.ez@outlook.fr"
+        }
+    ],
+    "require": {
+        "twig/twig": "^2.0"
+    }
+}
