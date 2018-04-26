@@ -43,26 +43,43 @@
     foreach (scandir($dir) as $f) {
        
         if ($f !== '.' and $f !== '..'){
-            $d =  realpath($dir.$f);
-            $topdir = $d. "/" ;
+            $chemin =  realpath($dir.$f);
+            $topdir = $chemin. "/" ;
+            $url =  urlencode($topdir);
 
             $type = is_dir($topdir);
+            
+            $filetype = null;
+            if ( $type == false){
+                $filetype =  mime_content_type ($chemin);
+                
+            }
+
+            $date = filemtime ($dir.$f);
+            $datemodif =date ("F d Y - H:i:s", filemtime($dir.$f));
+
 
             $mydata[] = array(
                 'topdir' => $topdir,
                 'file' => $f,
-                'type' =>  $type
+                'type' =>  $type,
+                'chemin' => $url,
+                'down' => $chemin,
+                'filetype' => $filetype,
+                'date' => $datemodif,              
                 
             );
 
             //echo "<a href='index.php?dir=".$topdir."'>$f </a>\n";
         }
     }
-    
-    //echo '<pre>'; var_dump($d); echo '</pre>'; die();
-    
-  
 
+
+    
+    
+    // type de fichier 
+    
+    
 
     // rooting
     $page = 'home';
@@ -74,7 +91,7 @@
         echo $twig->render('home.html', array(
             'dir' => $dir,
             'mydata' => $mydata,
-            'down' => $d,
+            
         ));
         
     }
