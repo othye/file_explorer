@@ -23,23 +23,34 @@
             $kind = is_dir($path);
             $date = filemtime($folder.DIRECTORY_SEPARATOR.$name);
             $datemodif = date ("F d Y - H:i:s", $date);
-            $filetype = null;
+            $userId = getmyuid();
+            $userInfo = posix_getpwuid($userId);
+            $user = $userInfo['name'];
+            $size = filesize($path). ' bytes';
+            //$permission = fileperms($folder.DIRECTORY_SEPARATOR.$name);
             
+            $filetype = null;
+
             if($kind == false) {
 
                 $path = $folder.DIRECTORY_SEPARATOR.$name; //pour créer le hemin des fichier
 
                 $filetype =  mime_content_type ($path); //definir le type des fichiers
+
+                
                 
             }
 
             array_push($mydata, [
 
-                'name' => $name,
+                'filename' => $name,
                 'path' => $path,
                 'type' => $kind,
                 'filetype' => $filetype ,
                 'date' => $datemodif,
+                'user' => $user,
+                'size' => $size,
+                //'perm' => $permission,
 
             ]);
             
