@@ -1,0 +1,101 @@
+jsgdygduahJQJsJKSQqkjx
+require 'vendor/autoload.php';
+
+    // rendu du template
+    $loader = new Twig_Loader_Filesystem(__DIR__ . '/templates');
+    $twig = new Twig_Environment($loader, [
+        'cache' => false,   //__DIR__ . '/tmp'
+        'debug' => true,
+
+    ]);
+    $twig->addExtension(new Twig_Extension_Debug());
+
+    $dir = './upload/';
+    $root = __DIR__;
+    //$parent = fopen($dir);
+
+    function is_in_dir($dir, $root, $recursive = true, $limit = 1000) {
+       
+        $directory = $root;
+        $parent = $dir;
+        $i = 0;
+
+        while($parent) {
+            if ($directory == $parent) return true;
+            if ($parent == dirname($parent) || !$recursive) break;
+            $parent = dirname($parent);
+        }
+        return false;
+    } 
+
+
+    if (isset($_GET['dir'])) {
+        $dir = $_GET['dir'];
+        if(!is_in_dir($dir, $root)){
+
+            // il faut indiquer le dossier root ici 
+            $dir= './upload/';
+        
+        }else{
+            $dir='/'.$dir;
+        }
+    }
+
+    $d = null;
+    $mydata = array();
+    foreach (scandir($dir) as $f) {
+       
+        if ($f !== '.' and $f !== '..'){
+            $chemin =  realpath($dir.$f);
+            $topdir = $chemin. "/" ;
+            $url =  urlencode($topdir);
+
+            $type = is_dir($topdir);
+            
+            $filetype = null;
+            if ( $type == false){
+                $filetype =  mime_content_type ($chemin);
+                
+            }
+
+            $date = filemtime ($dir.$f);
+            $datemodif =date ("F d Y - H:i:s", filemtime($dir.$f));
+
+
+            $mydata[] = array(
+                'topdir' => $topdir,
+                'file' => $f,
+                'type' =>  $type,
+                'chemin' => $url,
+                'down' => $chemin,
+                'filetype' => $filetype,
+                'date' => $datemodif,              
+                
+            );
+
+            //echo "<a href='index.php?dir=".$topdir."'>$f </a>\n";
+        }
+    }
+
+
+    
+    
+    // type de fichier 
+    
+    
+
+    // rooting
+    $page = 'home';
+    if (isset($_GET['p'])){
+        $page = $_GET['p'];
+    }
+
+    if ($page === 'home'){
+        echo $twig->render('home.html', array(
+            'dir' => $dir,
+            'mydata' => $mydata,
+            //"root" => $parent
+            
+        ));
+        
+    }

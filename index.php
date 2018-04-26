@@ -10,90 +10,75 @@
     ]);
     $twig->addExtension(new Twig_Extension_Debug());
 
-    $dir = './upload/';
-    $root = __DIR__;
+    function displayData($folder) {
 
-    function is_in_dir($dir, $root, $recursive = true, $limit = 1000) {
-        $directory = realpath($root);
-        $parent = realpath($dir);
-        $i = 0;
-        while($parent) {
-            if ($directory == $parent) return true;
-            if ($parent == dirname($parent) || !$recursive) break;
-            $parent = dirname($parent);
-        }
-        return false;
-    } 
-
-
-    if (isset($_GET['dir'])) {
-        $dir = $_GET['dir'];
-        if(!is_in_dir($dir, $root)){
-
-            // il faut indiquer le dossier root ici 
-            $dir= './upload/';
+        $mydata = [];
+        $directories = array_diff(scandir($folder), ['.', '..']);
         
-        }else{
-            $dir='/'.$dir;
-        }
-    }
+        foreach ($directories as $name) {
 
-    $d = null;
-    $mydata = array();
-    foreach (scandir($dir) as $f) {
-       
-        if ($f !== '.' and $f !== '..'){
-            $chemin =  realpath($dir.$f);
-            $topdir = $chemin. "/" ;
-            $url =  urlencode($topdir);
+            $path = $folder.DIRECTORY_SEPARATOR.$name;
 
-            $type = is_dir($topdir);
-            
+            // dossier ou fichier
+            $kind = is_dir($path);
+            $date = filemtime($folder.DIRECTORY_SEPARATOR.$name);
+            $datemodif = date ("F d Y - H:i:s", $date);
             $filetype = null;
-            if ( $type == false){
-                $filetype =  mime_content_type ($chemin);
+            
+            if($kind == false) {
+
+                $path = $folder.DIRECTORY_SEPARATOR.$name; //pour créer le hemin des fichier
+
+                $filetype =  mime_content_type ($path); //definir le type des fichiers
                 
             }
 
-            $date = filemtime ($dir.$f);
-            $datemodif =date ("F d Y - H:i:s", filemtime($dir.$f));
+            array_push($mydata, [
 
+                'name' => $name,
+                'path' => $path,
+                'type' => $kind,
+                'filetype' => $filetype ,
+                'date' => $datemodif,
 
-            $mydata[] = array(
-                'topdir' => $topdir,
-                'file' => $f,
-                'type' =>  $type,
-                'chemin' => $url,
-                'down' => $chemin,
-                'filetype' => $filetype,
-                'date' => $datemodif,              
-                
-            );
-
-            //echo "<a href='index.php?dir=".$topdir."'>$f </a>\n";
+            ]);
+            
         }
+        
+        return $mydata;
+
     }
 
+    if(isset($_GET['data'])) {
+    
+        $data = $_GET['data'];
 
-    
-    
-    // type de fichier 
-    
-    
+        if(substr($data, 0, 6) === 'upload' && !strpos($data, '..') && file_exists($data)) {
 
-    // rooting
-    $page = 'home';
-    if (isset($_GET['p'])){
-        $page = $_GET['p'];
-    }
+            echo $twig->render('home.html', array(
 
-    if ($page === 'home'){
+                'mydata' => displayData($data),
+                
+            ));
+            
+        } else {
+
+            //potentielle attaque
+            
+
+        }
+
+    } else {
+
         echo $twig->render('home.html', array(
-            'dir' => $dir,
-            'mydata' => $mydata,
+
+            'mydata' => displayData('upload'),
             
         ));
         
     }
+
+   
+
 
 ?>

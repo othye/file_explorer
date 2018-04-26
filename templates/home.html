@@ -19,39 +19,66 @@
             <h></h>
         </header>
         <section class="container">
-           
-            <legend><i class="fa fa-folder-open" aria-hidden="true"></i> Files Explorer</legend>
-                <table class="table">
-                    <th scope="col">#</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Type</th>
-                    <th scope="col">Last modification</th>
-                    
-                    {% for data in mydata %}
-                    
-                        {% if data['type'] == true %}
-                            <tr>
-                                <td><img id='icons-f' src='img/folder.png'></td>
-                                <td><a href="index.php?dir={{data['chemin']}}">{{ data['file']}}</a></td>
-                                <td>Folder</td>
-                                <td id="date"> {{data['date']}} </td>
-                            </tr>
-                        {% else %}
-                            <tr>
-                                <td><img id='icons-f' src='img/file.png'></td>
-                                <td><a href="download.php?dir={{data['down']}}">{{ data['file']}}</a></td>
-                                <td>{{ data['filetype'] }}</td>
-                                <td id="date"> {{data['date']}} </td>
-                            </tr>
-                        {% endif %}
+            <div class="table-responsive"> 
+                <legend><i class="fa fa-folder-open" aria-hidden="true"></i> Files Explorer {{ root }}</legend>
+                    <table class="table table-striped">
+                        <!-- <th scope="col">#</th> -->
+                        <th scope="col">Name</th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Last modification</th>
                         
-                    {% endfor %}
+                        <!-- {% for data in mydata %}
+                        
+                            {% if data['type'] == true %}
 
+                                <tr>
+                                    <td><img class='icons-f' src='img/folder.png'></td>
+                                    <td><a href="index.php?dir={{data['chemin']}}">{{ data['file']}}</a></td>
+                                    <td>Folder</td>
+                                    <td id="date"> {{data['date']}} </td>
+                                </tr>
 
-                    </tr>
+                            {% else %}
 
+                                <tr>
+                                    <td><img class='icons-f' src='img/file.png'></td>
+                                    <td><a href="download.php?dir={{data['down']}}">{{ data['file']}}</a></td>
+                                    <td>{{ data['filetype'] }}</td>
+                                    <td class="date"> {{data['date']}} </td>
+                                </tr>
 
-                </table>
+                            {% endif %}
+                            
+                        {% endfor %} -->
+                        {% for data in mydata %}
+                    
+                            {% if data.type == true %}
+                                <tr>
+                                    <td>
+                                        <img id='icons-f' src='img/folder.png'>
+                                        <a href="?data={{data.path}}">{{ data.name }}</a>
+                                    </td>
+                                    <td>Folder</td>
+                                    <td id="date"> {{ data.date }} </td>
+                                    
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td>
+                                        <img id='icons-f' src='img/file.png'>
+                                        <!-- <td><a href="download.php?dir={{data['down']}}">{{ data['file']}}</a></td> -->
+                                        <a href="{{data.path}}" download>{{ data.name }}</a>
+                                    </td>
+                                    <td id="type">{{ data.filetype }}</td>
+                                    <td id="date"> {{ data.date }} </td>
+                                </tr>
+                            {% endif %}
+                            
+                        {% endfor %}
+
+                        
+                    </table>
+            </div>
 
         </section>
 

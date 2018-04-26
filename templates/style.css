@@ -2,7 +2,11 @@ header{
     height: 100px;
 }
 
-#icons-f{
+.icons-f{
     width: 30px;
     height: 30px;
+}
+
+th{
+    background-color: rgba(190, 188, 188, 0.76)
 }
