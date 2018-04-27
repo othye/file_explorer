@@ -55,7 +55,7 @@
             ]);
             
         }
-        
+     
         return $mydata;
 
     }
@@ -69,6 +69,7 @@
             echo $twig->render('home.html', array(
 
                 'mydata' => displayData($data),
+                'folder' => $data
                 
             ));
             

@@ -7,11 +7,11 @@
         <title>Files Explorer(PHP)</title>
 
         <link rel="icon" type="image/png" href="img/favicon.png"/>
+        <link href="https://fonts.googleapis.com/css?family=Signika" rel="stylesheet"> 
 
         <link rel="stylesheet" href="templates/style.css">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
-        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
 
     </head>
     <body>
@@ -20,71 +20,54 @@
         </header>
         <section class="container">
             <div class="table-responsive"> 
-                <legend><i class="fa fa-folder-open" aria-hidden="true"></i> Files Explorer {{ root }}</legend>
-                    <table class="table table-striped">
-                        <!-- <th scope="col">#</th> -->
-                        <th scope="col">Name</th>
-                        <th scope="col">Type</th>
-                        <th scope="col">Last modification</th>
-                        <th scope="col">User</th>
-                        <th scope="col">Size</th> 
+                <legend><i class="fa fa-folder-open" aria-hidden="true"></i>
+                    Files Explorer :  
+                    {{ folder }}
+                
+                </legend>
+                <table class="table table-striped">
+                    <!-- <th scope="col">#</th> -->
+                    <th scope="col">Name</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Last modification</th>
+                    <th scope="col">Owner</th>
+                    <th scope="col">Size</th> 
+
+
+                    {% for data in mydata %}
+                
+                        {% if data.type == true %}
+                            <tr>
+                                <td class="name">
+                                    <img class='icons-f' src='img/folder.png'>
+                                    <a href="?data={{data.path}}">{{ data.filename }}</a>
+                                </td>
+                                <td>Folder</td>
+                                <td class="date"> {{ data.date }} </td>
+                                <td class="user"> {{data.user}} </td>
+                                <!-- <td class="permission"> {{data.perm}} </td> -->
+                                <td class="size">   </td>
+                                
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td class="name">
+                                    <img class='icons-f' src='img/file.png'>
+                                    <!-- <td><a href="download.php?dir={{data['down']}}">{{ data['file']}}</a></td> -->
+                                    <a href="{{data.path}}" download>{{ data.filename }}   <i class="fas fa-download"></i></a>
+                                                                            
+                                </td>
+                                <td class="type">{{ data.filetype }}</td>
+                                <td class="date"> {{ data.date }} </td>
+                                <td class="user"> {{data.user}} </td>
+                                <td class="size"> {{data.size}} </td>
+                            </tr>
+                        {% endif %}
                         
-                        <!-- {% for data in mydata %}
-                        
-                            {% if data['type'] == true %}
+                    {% endfor %}
 
-                                <tr>
-                                    <td><img class='icons-f' src='img/folder.png'></td>
-                                    <td><a href="index.php?dir={{data['chemin']}}">{{ data['file']}}</a></td>
-                                    <td>Folder</td>
-                                    <td id="date"> {{data['date']}} </td>
-                                </tr>
-
-                            {% else %}
-
-                                <tr>
-                                    <td><img class='icons-f' src='img/file.png'></td>
-                                    <td><a href="download.php?dir={{data['down']}}">{{ data['file']}}</a></td>
-                                    <td>{{ data['filetype'] }}</td>
-                                    <td class="date"> {{data['date']}} </td>
-                                </tr>
-
-                            {% endif %}
-                            
-                        {% endfor %} -->
-                        {% for data in mydata %}
                     
-                            {% if data.type == true %}
-                                <tr>
-                                    <td>
-                                        <img id='icons-f' src='img/folder.png'>
-                                        <a href="?data={{data.path}}">{{ data.filename }}</a>
-                                    </td>
-                                    <td>Folder</td>
-                                    <td id="date"> {{ data.date }} </td>
-                                    <td id="user"> {{data.user}} </td>
-                                    <!-- <td id="permission"> {{data.perm}} </td> -->
-                                    <td id="size">   </td>
-                                    
-                                </tr>
-                            {% else %}
-                                <tr>
-                                    <td>
-                                        <img id='icons-f' src='img/file.png'>
-                                        <!-- <td><a href="download.php?dir={{data['down']}}">{{ data['file']}}</a></td> -->
-                                        <a href="{{data.path}}" download>{{ data.filename }}</a>
-                                    </td>
-                                    <td id="type">{{ data.filetype }}</td>
-                                    <td id="date"> {{ data.date }} </td>
-                                    <td id="user"> {{data.user}} </td>
-                                    <td id="size"> {{data.size}} </td>
-                                </tr>
-                            {% endif %}
-                            
-                        {% endfor %}
-
-                        
-                    </table>
+                </table>
             </div>
 
         </section>
