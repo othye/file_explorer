@@ -15,18 +15,23 @@
 
     </head>
     <body>
-        <header >
-            <h1 class="text-center"></h1>
+
+        <header class="text-center" >
+            <img class='logo' src='img/files_explore.png'>
+            <h1 class="text-logo">File Explorer </h1>
         </header>
+
         <section class="container">
             <div class="table-responsive"> 
-                <legend><i class="fa fa-folder-open" aria-hidden="true"></i>
-                      
-                    {% if folder == false %}
-                        My_Documents
-                    {% else %}
-                        {{ folder }}
-                    {% endif %}
+                <legend class="title">
+                   <h2>
+                        <i class="fa fa-folder-open" aria-hidden="true"></i>  
+                        {% if folder == false %}
+                            My_Documents
+                        {% else %}
+                            {{ folder }}
+                        {% endif %}
+                    </h2> 
                 
                 </legend>
                 <table class="table table-striped">
