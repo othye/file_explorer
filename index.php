@@ -41,11 +41,10 @@
                 $ext = explode('.', $path); //récupéré l'extention de fichier
                 $fileExt = end($ext);
 
-                //echo '<pre>'; var_dump($fileExt); echo '</pre>'; die();
             }
 
             
-            //echo '<pre>'; var_dump($exleExt); echo '</pre>'; die();
+           
 
             // la taille des fichier:
             if($size >= 1048576){
@@ -79,15 +78,21 @@
     if(isset($_GET['data'])) {
     
         $data = $_GET['data'];
+        $chemin = explode('/', $data);
+        //$lien = reset($chemin);
+        //echo '<pre>'; var_dump($lien); echo '</pre>'; die();
 
-        if(substr($data, 0, 6) === 'upload' && !strpos($data, '..') && file_exists($data)) {
-
+        if($chemin[0] === 'My_Documents' && !strpos($data, '..') && file_exists($data)) {
+           
             echo $twig->render('home.html', array(
 
                 'mydata' => displayData($data),
-                'folder' => $data
+                'folder' => $data,
+                'racine' => $chemin[0]
+                
                 
             ));
+            // echo '<pre>'; var_dump($chemin[0]); echo '</pre>'; die();
             
         } else {
 
@@ -100,7 +105,7 @@
 
         echo $twig->render('home.html', array(
 
-            'mydata' => displayData('upload'),
+            'mydata' => displayData('My_Documents'),
             
         ));
         

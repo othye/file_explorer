@@ -1,0 +1,25 @@
+*{
+    font-family: 'Signika', sans-serif;
+}
+header{
+    height: 100px;
+}
+
+.icons-f{
+    width: 30px;
+    height: 30px;
+}
+.name a{
+   text-decoration: solid;
+   color : black;
+   font-size: 18px;
+
+}
+.name a:hover{
+    text-decoration : none;
+    color: royalblue;
+
+}
+th{
+    background-color: rgba(190, 188, 188, 0.76)
+}
