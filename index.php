@@ -27,26 +27,42 @@
             $userInfo = posix_getpwuid($userId);
             $user = $userInfo['name'];
             $size = filesize($path). ' bytes';
+
             //$permission = fileperms($folder.DIRECTORY_SEPARATOR.$name);
             
-            $filetype = null;
+            $fileExt = null;
 
             if($kind == false) {
 
                 $path = $folder.DIRECTORY_SEPARATOR.$name; //pour créer le hemin des fichier
-
+                
                 $filetype =  mime_content_type ($path); //definir le type des fichiers
+                
+                $ext = explode('.', $path); //récupéré l'extention de fichier
+                $fileExt = end($ext);
 
-                
-                
+                //echo '<pre>'; var_dump($fileExt); echo '</pre>'; die();
             }
+
+            
+            //echo '<pre>'; var_dump($exleExt); echo '</pre>'; die();
+
+            // la taille des fichier:
+            if($size >= 1048576){
+                $size = round($size/1048576,1).' MB';
+            }else{
+                if ($size >= 1024){
+                    $size = round($size/1024,1).' KB';
+                }
+            }
+
 
             array_push($mydata, [
 
                 'filename' => $name,
                 'path' => $path,
                 'type' => $kind,
-                'filetype' => $filetype ,
+                'filetype' => $fileExt ,
                 'date' => $datemodif,
                 'user' => $user,
                 'size' => $size,
