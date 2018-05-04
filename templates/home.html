@@ -17,7 +17,7 @@
     <body>
 
         <header class="text-center" >
-            <img class='logo' src='img/files_explore.png'>
+            <img class='logo' src='img/File-explorer-icon.png'>
             <h1 class="text-logo">File Explorer </h1>
         </header>
 
@@ -25,24 +25,22 @@
             <div class="table-responsive"> 
                 <legend class="title">
                    <h2>
-                        <i class="fa fa-folder-open" aria-hidden="true"></i>  
+                        <i class="fa fa-folder-open" style="font-size:48px;color:#FBD22A"aria-hidden="true"></i>  
                         {% if folder == false %}
-                            My_Documents
+                          My_Documents   
                         {% else %}
-                            {{ folder }}
+                          {{ folder }}  
                         {% endif %}
                     </h2> 
                 
                 </legend>
                 <table class="table table-striped">
-                    <!-- <th scope="col">#</th> -->
                     <th scope="col">Name</th>
                     <th scope="col">Type</th>
                     <th scope="col">Size</th>
                     <th scope="col">Last modification</th>
                     <th scope="col">Owner</th>                    
-                    <!-- <th scope="col">Permission</th>   -->
-
+                    <th scope="col">Permission</th>
 
                     {% for data in mydata %}
                 
@@ -56,21 +54,20 @@
                                 <td class="size">   </td>
                                 <td class="date"> {{ data.date }} </td>
                                 <td class="user"> {{data.user}} </td>           
-                                <!-- <td class="permission"> {{data.perm}} </td> -->
+                                <td class="permission"> {{data.perm}} </td>
                                 
                             </tr>
                         {% else %}
                             <tr>
                                 <td class="name">
-                                    <img class='icons-f' src='img/file.png'>
+                                    <img class='icons-f' src=' {{ data.icon}}'>
                                     <a href="{{data.path}}" download>{{ data.filename }}   <i class="fas fa-download"></i></a>                                     
                                 </td>
                                 <td class="type">{{ data.filetype }}</td>
                                 <td class="size"> {{data.size}} </td>
                                 <td class="date"> {{ data.date }} </td>
                                 <td class="user"> {{data.user}} </td>
-                                
-                                <!-- <td class="permission"> {{data.perm}} </td> -->
+                                <td class="permission"> {{data.perm}} </td>
                             </tr>
                         {% endif %}
                         
